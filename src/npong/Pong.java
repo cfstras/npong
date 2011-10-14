@@ -18,13 +18,16 @@ public class Pong {
 
     boolean play=true;
 
-    int x;
+    int frames;
 
     int width;
     int height;
 
     int p1pos;
     int p2pos;
+
+    int p1score;
+    int p2score;
 
     double ballposx;
     double ballposy;
@@ -41,27 +44,47 @@ public class Pong {
 
     long lastframe; //in micros
     long frametime=30;
+    long lastfpstime;
+    long lastfps;
 
     public Pong(int width,int height){
         this.width=width;
         this.height=height;
 
-        ballposx=width/2;
-        ballposy=height/2;
+        
         boardlen=height/6;
 
+        newBall(false);
+
+    }
+
+    void newBall(boolean wait){
+        ballposx=width/2;
+        ballposy=height/2;
         ballaccelx=(r.nextBoolean()?1:-1)*10;
         ballaccely=(r.nextBoolean()?1:-1)*10;
 
         p1pos=height/2;
         p2pos=p1pos;
+        if(wait){
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException ex) {}
+        }
     }
 
     void start() {
         while (play){
             check_and_move_ball();
             sync_fps();
-            x++;
+            
+
+            frames++;
+            if(lastfpstime !=0 && System.currentTimeMillis()-lastfpstime>=1000){
+                lastfps=frames;
+                frames=0;
+                lastfpstime=System.currentTimeMillis();
+            }
         }
     }
 
@@ -74,6 +97,27 @@ public class Pong {
         double newposy=ballposy+ballaccely;
         
         if(newposx < boardwidth || newposx > width-boardwidth){
+            if(newposx<boardwidth){ //for player 1
+                if(newposy>p1pos-ballradius-ballradius-boardlen/2 && newposy<p1pos+ballradius+ballradius+boardlen/2){ //got it.
+                    //bounce
+                } else {
+                    //lose.
+                    p2score++;
+                    soutScore();
+                    newBall(true);
+                    return;
+                }
+            } else {//player 2
+                if(newposy>p2pos-ballradius-ballradius-boardlen/2 && newposy<p2pos+ballradius+ballradius+boardlen/2){ //got it.
+                    //bounce
+                } else {
+                    //lose.
+                    p1score++;
+                    soutScore();
+                    newBall(true);
+                    return;
+                }
+            }
             ballaccelx*=-1;
             newposx=ballposx+ballaccelx;
         }
@@ -86,6 +130,9 @@ public class Pong {
 
         ballposx=newposx;
         ballposy=newposy;
+    }
+    void soutScore(){
+        System.out.println("Score: p1: "+p1score+" p2: "+p2score);
     }
 
     private void sync_fps() {

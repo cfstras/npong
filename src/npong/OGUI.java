@@ -83,6 +83,17 @@ public class OGUI extends Thread{
     if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
       pong.p2pos-=15;
     }
+
+    if(pong.p1pos<(pong.boardlen/2)){
+                pong.p1pos=pong.boardlen/2;
+            } else if (pong.p1pos>height-pong.boardlen/2){
+                pong.p1pos=height-pong.boardlen/2;
+            }
+            if(pong.p2pos<(pong.boardlen/2)){
+                pong.p2pos=pong.boardlen/2;
+            } else if (pong.p2pos>height-pong.boardlen/2){
+                pong.p2pos=height-pong.boardlen/2;
+            }
   }
 
   public void processMouse() {
@@ -100,6 +111,7 @@ public class OGUI extends Thread{
     
     drawRect((float)(pong.boardwidth>>1),(float)pong.p1pos, pong.boardwidth, pong.boardlen, 0,1.0f, 1.0f, 1.0f);
     drawRect(width-(float)(pong.boardwidth>>1),(float)pong.p2pos, pong.boardwidth, pong.boardlen, 0,1.0f, 1.0f, 1.0f);
+
   }
   
   /**
