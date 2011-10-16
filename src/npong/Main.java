@@ -38,6 +38,8 @@ public class Main extends Thread{
     }
     @Override
     public void run() {
+        
+
         gui.start();
         pong.start();
     }
