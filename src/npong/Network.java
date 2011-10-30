@@ -31,7 +31,6 @@ public class Network {
         new Network();
     }
 
-
     HashSet<InetAddress> servers=new HashSet<InetAddress>();
     Broadcaster bc;
     public Network(){
@@ -75,6 +74,13 @@ public class Network {
             }
         }
         JOptionPane.showConfirmDialog(null, "Error: could not bind to any of the port(s) "+firstPort+"-"+lastport+", can't connect that way. Committing suicide...");
+
+    }
+
+     
+    public void stopBroadcasting(){
+        isActive=false;
+        udpSocket.close();
 
     }
 
