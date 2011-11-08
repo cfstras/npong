@@ -12,6 +12,10 @@ package npong;
 public class Main extends Thread{
     static OGUI gui;
     static Pong pong;
+    static UDPListener listener1;
+    static UDPListener listener2;
+    
+    public static boolean run=true;
     /**
      * @param args the command line arguments
      */
@@ -24,6 +28,9 @@ public class Main extends Thread{
     }
 
     static void exit() {
+        run=false;
+        pong.play=false;
+       
         //save scores
         //disconnect
         System.exit(0);
@@ -33,8 +40,8 @@ public class Main extends Thread{
     public Main() {
         pong = new Pong(800,600);
         gui = new OGUI(800,600,pong);
-        
-
+        listener1=new UDPListener(false,pong);
+        listener2=new UDPListener(true,pong);
     }
     @Override
     public void run() {
@@ -42,6 +49,9 @@ public class Main extends Thread{
 
         gui.start();
         pong.start();
+        
+        listener1.start();
+        //listener2.start();
     }
 
 }

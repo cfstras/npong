@@ -41,7 +41,10 @@ public class Pong {
     boolean p1movingup;
     boolean p2movingdown;
     boolean p2movingup;
-
+    
+    int newp1pos;
+    int newp2pos;
+    
     int boardmovevel=15;
 
     public Pong(int width, int height) {
@@ -97,6 +100,10 @@ public class Pong {
         if(p2movingdown) p2pos-=boardmovevel;
         if(p2movingup) p2pos+=boardmovevel;
         
+        if(newp1pos!=0) p1pos=newp1pos;
+        if(newp2pos!=0) p2pos=newp2pos;
+        newp1pos=0;newp2pos=0;
+        
 
         if (p1pos < (boardlen / 2)) {
             p1pos = boardlen / 2;
@@ -128,13 +135,13 @@ public class Pong {
             } else {//player 2
                 if (newposy > p2pos - ballradius /*- ballradius */- boardlen / 2 && newposy < p2pos + ballradius + ballradius + boardlen / 2) { //got it.
                     //bounce
-                } else {
+                } /*else {
                     //lose.
                     p1score++;
                     soutScore();
                     newBall(true);
                     return;
-                }
+                }*/
             }
             ballaccelx *= -1;
             newposx = ballposx + ballaccelx;

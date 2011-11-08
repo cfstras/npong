@@ -175,7 +175,7 @@ public class OGUI extends Thread {
     @Override
     public void run() {
         create();
-        while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+        while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) && pong.play && Main.run) {
             pong.pongLoop();
             if (Display.isVisible()) {
                 processKeyboard();
