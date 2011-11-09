@@ -93,15 +93,29 @@ public class Pong {
     void pause() {
     }
 
-
+    
+    int p1lastmove;
+    int p2lastmove;
     private void move_players(){
         if(p1movingdown) p1pos-=boardmovevel;
         if(p1movingup) p1pos+=boardmovevel;
         if(p2movingdown) p2pos-=boardmovevel;
         if(p2movingup) p2pos+=boardmovevel;
         
-        if(newp1pos!=0) p1pos=newp1pos;
-        if(newp2pos!=0) p2pos=newp2pos;
+        int p1move=0;  
+        if(newp1pos!=0) {
+            p1move=newp1pos-p1pos;
+            p1move=p1move/2;
+        }
+        p1move += p1lastmove/4;
+        p1lastmove=p1move;
+        p1pos+=p1move;
+        //if(newp2pos!=0) {
+        //    int p2move=newp2pos-p2pos;
+        //    p2lastmove = p2lastmove <<1;// divide by 2
+        //    p2pos=newp2pos+p2lastmove;
+        //    p2lastmove = p2move;
+        //}
         newp1pos=0;newp2pos=0;
         
 
@@ -135,13 +149,13 @@ public class Pong {
             } else {//player 2
                 if (newposy > p2pos - ballradius /*- ballradius */- boardlen / 2 && newposy < p2pos + ballradius + ballradius + boardlen / 2) { //got it.
                     //bounce
-                } /*else {
+                } else {
                     //lose.
                     p1score++;
                     soutScore();
                     newBall(true);
                     return;
-                }*/
+                }
             }
             ballaccelx *= -1;
             newposx = ballposx + ballaccelx;

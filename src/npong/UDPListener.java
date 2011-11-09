@@ -67,7 +67,12 @@ public class UDPListener extends Thread {
         float z = (float) (toInt(buf, 8)) / 1000;
         System.out.println("Got data: x=" + x + "  y=" + y + "  z=" + z);
         
-        int newpos= (int)Math.round((-y/7)*pong.height/2+ (pong.height/2) );
+        if((buf[12]&4)==4)
+            player2=true;
+        else
+            player2=false;
+        
+        int newpos= (int)Math.round((-y/5)*pong.height/2+ (pong.height/2) );
         System.out.println("pos: "+newpos);
         if (!player2)
             pong.newp1pos=newpos;
