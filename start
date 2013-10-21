@@ -1,0 +1,1 @@
+java -cp "lib/AppleJavaExtensions.jar:lib/jinput.jar:lib/lwjgl-debug.jar:lib/lwjgl.jar:lib/lwjgl_test.jar:lib/lwjgl_util.jar:lib/lwjgl_util_applet.jar:lib/lzma.jar:dist/npong.jar" -Djava.library.path="lib/native/" npong.Main

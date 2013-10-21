@@ -1,15 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package npong;
+
+import java.io.*;
 
 /**
  *
  * @author claus
  */
-public class Main extends Thread{
+public class Main extends Thread {
     static OGUI gui;
     static Pong pong;
     static UDPListener listener1;
@@ -18,7 +15,29 @@ public class Main extends Thread{
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        String system;
+            String prop = System.getProperty("os.name");
+            if(prop==null) {
+                System.out.println("Error: could not determine system type.");
+                return;
+            }
+            if(prop.contains("Linux")){
+                system = "linux";
+            } else if(prop.contains("Windows")){
+                system = "windows";
+            } else if(prop.contains("Mac")){
+                system = "macosx";
+            } else if(prop.contains("Solaris")){
+                system = "solaris";
+            } else {
+                System.out.println("can't identify system \""+prop+"\"");
+                return;
+            }
+            
+            System.setProperty("org.lwjgl.librarypath",new File(".").getCanonicalPath()+"/lib/native/"+system);
+            System.setProperty("org.lwjgl.util.Debug","true");
+            System.setProperty("org.lwjgl.util.NoChecks","false");
         new Main().start();
         
     }
@@ -43,7 +62,6 @@ public class Main extends Thread{
     }
     @Override
     public void run() {
-        
 
         gui.start();
         pong.start();
